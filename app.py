@@ -3,8 +3,12 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from urllib.parse import urlparse
+from flask_cors import CORS  # Import the CORS module
 
 app = Flask(__name__)
+
+# Allow CORS for a specific origin (your domain)
+CORS(app, origins="https://vsco.storyclone.com")  # Replace with your domain
 
 def fetch_long_url(short_url):
     headers = {
@@ -34,7 +38,7 @@ def fetch_long_url(short_url):
 
         # Assuming the path will have the desired structure
         path_parts = parsed_url.path.split('/')
-        
+
         if len(path_parts) >= 4:
             # Construct the new desired URL by adding "https://vsco.co/" and transforming the path
             transformed_url = f"https://vsco.co/{path_parts[1]}/media/{path_parts[3]}"
